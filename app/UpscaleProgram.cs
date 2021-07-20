@@ -22,6 +22,7 @@
             );
 
             var device = Torch.IsCudaAvailable() ? Device.CUDA : null;
+            device = null;
 
             if (device is not null) siren = siren.to(device);
 
@@ -96,6 +97,7 @@
                         Console.Title = $"epoch: {epoch} batch: {batchN} of {batchCount}";
                     }
                     
+                    GC.Collect();
                     Console.WriteLine($"Epoch {epoch}. Avg. loss: {totalLoss / batchCount}");
                     var epochEnd = new EpochEndEventArgs { Epoch = epoch, AvgLoss = totalLoss / batchCount };
                     improved(null, epochEnd);
